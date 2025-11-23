@@ -57,5 +57,10 @@ router.post("/create", async (req, res) => {
 
 })
 
+router.get("/get",async ( req ,res ) => {
+    const data = await client ` SELECT * FROM links ORDER BY created_at DESC`
+    res.status(200).json ({ data })
+})
+
 
 export default router
