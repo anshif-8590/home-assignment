@@ -66,11 +66,17 @@ router.get ("/links/get/:code" , async ( req , res ) => {
     const { code } = req.params
     const data  = await client ` SELECT * FROM links WHERE code = ${ code }`
 
-    if ( data ) {
-        return res.status(200).json ({ msg : "Success" , data })
-    }else{
+    if ( data.length === 0 ) {
         return res.status(400).json ({ msg : "Code not found " })
+    }else{
+        return res.status(200).json ({ msg : "Success" , data })
     }
+})
+
+router.delete ("/links/delete/:code" , async ( req , res ) => {
+    const { code } = req.params
+    const data = await client ` DELETE  FROM links WHERE code = ${ code }`
+    return res.status(200).json ({ msg : " Code deleted "})
 })
 
 
