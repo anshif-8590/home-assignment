@@ -1,27 +1,28 @@
 import express  from "express"
 import  dotenv  from "dotenv"
 import morgan from "morgan"
+import cors from "cors"
 import { client, connectDB } from "./src/config/db.js"
-import Route from "./src/routes"
+import Route from "./src/routes/index.js"
 dotenv.config()
 
 
-connectDB()
 
 const app = express()
+const Name = "Url-shortner"
+const PORT = process.env.PORT || 3000
 app.use(express.json())
+app.use(cors())
 morgan(':method :url :status :res[content-length] - :response-time ms')
 
- 
-app.get("/test" ,( req , res ) => {
-    return res.send("Success")
-})
+ connectDB()
 
-// app.get("/data" , async (req , res ) => {
-//     const data = await client ` SELECT * FROM links`
-//     console.log(data)
-// })
 
-app.listen( 3000 , () => 
-    console.log("Server is started")
+
+
+app.use('/api/',Route)
+
+
+app.listen( PORT , () => 
+    console.log(`Server started successfully at http://localhost:${PORT} - ${Name} backend service!`)
 )
