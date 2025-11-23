@@ -59,7 +59,18 @@ router.post("/create", async (req, res) => {
 
 router.get("/get",async ( req ,res ) => {
     const data = await client ` SELECT * FROM links ORDER BY created_at DESC`
-    res.status(200).json ({ data })
+   return res.status(200).json ({ msg : "Success" ,  data })
+})
+
+router.get ("/links/get/:code" , async ( req , res ) => {
+    const { code } = req.params
+    const data  = await client ` SELECT * FROM links WHERE code = ${ code }`
+
+    if ( data ) {
+        return res.status(200).json ({ msg : "Success" , data })
+    }else{
+        return res.status(400).json ({ msg : "Code not found " })
+    }
 })
 
 
