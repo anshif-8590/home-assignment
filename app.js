@@ -13,14 +13,16 @@ const Name = "Url-shortner"
 const PORT = process.env.PORT || 3000
 app.use(express.json())
 app.use(cors())
-morgan(':method :url :status :res[content-length] - :response-time ms')
+app.use(morgan("dev"))
 
- connectDB()
-
-
+connectDB()
 
 
-app.use('/api/',Route)
+app.get ("/healthz", ( req , res ) => {
+    res.status(200).json({ ok: true, version: "1.0" });
+})
+
+app.use('/',Route)
 
 
 app.listen( PORT , () => 
